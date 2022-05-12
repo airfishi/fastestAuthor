@@ -13,7 +13,11 @@ public class main {
 		records.massAddBooks("2002.txt");
 		System.out.println(records.validYears());
 		
-		System.out.printf("%s has the most books written for the date %d.\n",records.mostWritten(2002), 2002);
+		/*
+		 * The only date that will work currently are the ones you input 
+		 * since massAddBooks is not yet implemented.
+		 */
+		System.out.printf("%s has the most books written for the date %d.\n",records.mostWritten(1992), 1992);
 		
 		
 		
