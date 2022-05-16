@@ -1,6 +1,7 @@
 package worldRecords;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,9 +12,9 @@ import java.util.Set;
 public class recordKeeper {
 
 	//on Desktop
-	File currPath = new File("B://CS 220 HOMEWORK/CS220 Plagiarism Detector/DesignExercise3/");
+	//File currPath = new File("B://CS 220 HOMEWORK/CS220 Plagiarism Detector/DesignExercise3/");
 	//on Laptop
-	//File currPath = new File("D://CS 220 HOMEWORK/PlagiarismDetector/");
+	File currPath = new File("D:\\CS 220 HOMEWORK\\DesignExercise3\\");
 	
 	Map<Integer, Map<String, Set<String>>> catalog = new HashMap<>();
 	
@@ -53,7 +54,7 @@ public class recordKeeper {
 	Set<Integer> validYears() {
 		return catalog.keySet();
 	}
-	
+	String myDir = "D:\\CS 220 HOMEWORK\\DesignExercise3\\fastestAuthor\\docs\\";
 	
 	String mostWritten(Integer date) {
 		String topAuthor = "";
@@ -72,9 +73,9 @@ public class recordKeeper {
 		return topAuthor;
 	}
 	
-	void massAddBooks(String filename) {
+	void massAddBooks(String filename) throws FileNotFoundException {
 		
-		Scanner scan = new Scanner(filename);
+		Scanner scan = new Scanner(new File(myDir + filename));
 		while (scan.hasNextLine()) {
 			String line = scan.nextLine();
 			int x = line.indexOf(":");
@@ -83,27 +84,7 @@ public class recordKeeper {
 				String author = line.substring(0,cut - 1);
 				String title = line.substring(cut+1);
 				Integer date = Integer.parseInt(filename);
-				if(catalog == null || catalog.get(date) == null) {
-					Set<String> firstBook = new HashSet<>();
-					firstBook.add(title);
-					Map<String, Set<String>> temp = new HashMap<>();
-					temp.put(author,firstBook);
-					catalog.put(date,temp);
-				} else if(!catalog.get(date).containsKey(author)) {
-					Set<String> firstBook = new HashSet<>();
-					firstBook.add(title);
-					catalog.get(date).put(author,firstBook);
-				} else catalog.get(date).get(author).add(title);
-				
-				if(!catalog.containsKey(date)) {
-					catalog.put(date, catalog.get(date));
-				} else if (!catalog.get(date).containsKey(author)){
-					Set<String> firstBook = new HashSet<>();
-					firstBook.add(title);			
-					catalog.get(date).put(author,firstBook);
-				} else {
-					catalog.get(date).get(author).add(title);
-				}
+				addBook(date, author, title);
 			}
 
 
